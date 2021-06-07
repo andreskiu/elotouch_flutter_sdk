@@ -34,5 +34,5 @@ android {
 
 dependencies {
     // elotouch sdk in this directory
-    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
 }

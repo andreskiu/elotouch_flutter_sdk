@@ -15,7 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-
+  String textoAImprimir;
   @override
   void initState() {
     super.initState();
@@ -42,6 +42,14 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _print() async {
+    textoAImprimir =
+        await ElotouchFlutterPlugin.printString(args: "Texto a imprimir");
+    setState(() {
+      // _counter++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,6 +59,11 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Center(
           child: Text('Running on: $_platformVersion\n'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _print,
+          tooltip: 'Increment',
+          child: Icon(Icons.add),
         ),
       ),
     );
