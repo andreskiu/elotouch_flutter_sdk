@@ -12,6 +12,11 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+import com.elo.device.DeviceManager;
+import com.elo.device.enums.EloPlatform;
+import com.elo.device.exceptions.UnsupportedEloPlatform;
+import com.elo.device.peripherals.Printer;
+
 /** ElotouchFlutterPlugin */
 public class ElotouchFlutterPlugin implements FlutterPlugin, MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android

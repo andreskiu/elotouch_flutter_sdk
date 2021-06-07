@@ -31,3 +31,8 @@ android {
         disable 'InvalidPackage'
     }
 }
+
+dependencies {
+    // elotouch sdk in this directory
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+}
