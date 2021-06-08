@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:elotouch_flutter_plugin/elotouch_flutter_plugin.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('elotouch_flutter_plugin');
@@ -18,6 +17,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await ElotouchFlutterPlugin.platformVersion, '42');
+    // expect(await ElotouchDevice.platformVersion, '42');
   });
 }
