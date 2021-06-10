@@ -146,52 +146,55 @@ class ElotouchDevice {
   }
 
   /// Print a row. The max width row depends on the font size and the
-  /// width of the paper.
+  /// width of the paper. The sum of each column length must be equal to the
+  /// maximum paper width to work properly.
+  /// Max width for small size is 32 and all the other cases is 16.
   /// There is no calculation for the paper width, so the max width was fixed
   /// making real proof on a device with a paper of 58mm. If it is not your case
   ///, you can set the maximum number of characters that fit on your paper using
   /// the forcedMaximunWidth attribute. Be careful that this value depends on
   /// the font size
-  static Future<String> printRow({
+  static Future<bool> printRow({
     ElotouchFontSize size = ElotouchFontSize.s,
     List<TextColumn> cols,
+    bool isBold = false,
     int forcedMaximunWidth,
   }) async {
-    try {
-      int _maxRowLength;
-      if (forcedMaximunWidth == null) {
-        _maxRowLength = FontSize(size).getMaxChars();
+    int _maxRowLength;
+    if (forcedMaximunWidth == null) {
+      _maxRowLength = FontSize(size).getMaxChars();
+    } else {
+      _maxRowLength = forcedMaximunWidth;
+    }
+    final isSumInvalid =
+        cols.fold(0, (int sum, col) => sum + col.maxWidth) > _maxRowLength;
+
+    if (isSumInvalid) {
+      throw Exception(
+        'Total columns width must be lower/equal than $_maxRowLength',
+      );
+    }
+    String _rowText = "";
+    cols.forEach((col) {
+      if (col.text.length > col.maxWidth) {
+        _rowText = _rowText + col.text.substring(0, col.maxWidth);
       } else {
-        _maxRowLength = forcedMaximunWidth;
-      }
-      final isSumInvalid =
-          cols.fold(0, (int sum, col) => sum + col.maxWidth) > _maxRowLength;
-
-      if (isSumInvalid) {
-        throw Exception(
-          'Total columns width must be lower/equal than $_maxRowLength',
-        );
-      }
-      String _rowText = "";
-      cols.forEach((col) {
-        if (col.text.length > col.maxWidth) {
-          _rowText = _rowText + col.text.substring(0, col.maxWidth);
+        if (col.aligment == EloColumnAlignment.start) {
+          _rowText = _rowText + col.text.padRight(col.maxWidth);
         } else {
-          if (col.aligment == EloColumnAlignment.start) {
-            _rowText = _rowText + col.text.padRight(col.maxWidth);
-          } else {
-            _rowText = _rowText + col.text.padLeft(col.maxWidth);
-          }
-          //the algorithm can be improve by adding a new line with the remaining text content
+          _rowText = _rowText + col.text.padLeft(col.maxWidth);
         }
-      });
-      setFontSize(fontSize: size);
-
+        //the algorithm can be improve by adding a new line with the remaining text content
+      }
+    });
+    setFontSize(fontSize: size);
+    setBold(boldOn: isBold);
+    try {
       _printText(text: _rowText);
-      return "Text printed";
+      return true;
     } on Exception catch (e) {
       print(e);
-      return e.toString();
+      return false;
     }
   }
 

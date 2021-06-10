@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:elotouch_flutter_plugin/elotouch_flutter_plugin.dart';
-// import 'package:elotouch_flutter_plugin/models/enums.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,7 +35,47 @@ class _MyAppState extends State<MyApp> {
           TextColumn(text: "1234567890", aligment: EloColumnAlignment.end),
         ],
       );
+      methodOutput = await ElotouchDevice.printEmptyLine();
+      try {
+        await ElotouchDevice.printRow(
+          cols: [
+            TextColumn(text: "Account Medium"),
+            TextColumn(text: "1234567890", aligment: EloColumnAlignment.end),
+          ],
+          size: ElotouchFontSize.m,
+        );
+      } catch (e) {
+        await ElotouchDevice.printText(text: "TEXTO LARGO");
+      }
 
+      methodOutput = await ElotouchDevice.printEmptyLine();
+      await ElotouchDevice.printRow(
+        cols: [
+          TextColumn(
+            text: "Account Large",
+            maxWidth: 8,
+          ),
+          TextColumn(
+            text: "1234567890",
+            aligment: EloColumnAlignment.end,
+            maxWidth: 8,
+          ),
+        ],
+        size: ElotouchFontSize.l,
+      );
+
+      methodOutput = await ElotouchDevice.printEmptyLine();
+      try {
+        await ElotouchDevice.printRow(
+          cols: [
+            TextColumn(text: "Account XLarge"),
+            TextColumn(text: "1234567890", aligment: EloColumnAlignment.end),
+          ],
+          size: ElotouchFontSize.xl,
+        );
+      } catch (e) {
+        await ElotouchDevice.printText(text: "Exception, text too large");
+      }
       methodOutput = await ElotouchDevice.printEmptyLine();
 
       // this account will be cut due to the max width of that column
