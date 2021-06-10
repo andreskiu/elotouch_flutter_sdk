@@ -1,15 +1,14 @@
 # elotouch_flutter_plugin
 
-A new flutter plugin project.
+This plugin is a wrapper of the official Elotouch SDK with some extra functions. At the moment it only support a few options to use the printer. Pull request are accepted to cover other functionalities.
 
-## Getting Started
+Take a look at the example project inside the plugin. It was tested on an Elo Pay Point for ANDROID.
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+TODO:
+* print barcode
+* print Image
+* Cash Drawer Handler
+* Card Reader Handler
+* BarCode Readler Handler
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
